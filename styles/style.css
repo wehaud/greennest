@@ -1,0 +1,19 @@
+body {
+    font-family: sans-serif;
+    background: #f0f4f2;
+    padding: 20px;
+    color: #333;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+input, button {
+    margin: 5px 0;
+    padding: 8px;
+}
