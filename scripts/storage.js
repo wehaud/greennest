@@ -1,4 +1,18 @@
+import { generateId } from '../utils.js';
+
 const STORAGE_KEY = "plants";
+
+export function addPlant({name, birthDate}) {
+    const plants = loadPlants();
+    const newPlant = {
+        id: generateId(),
+        name,
+        birthDate,
+    }
+    plants.push(newPlant);
+    savePlants(plants);
+    return plants;
+}
 
 export function savePlants(plants) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plants));
@@ -9,9 +23,12 @@ export function loadPlants() {
     return data ? JSON.parse(data) : [];
 }
 
-export function addPlant(newPlant) {
+export function editPlant() {
+    //todo edit
+}
+
+export function deletePlant(id) {
     const plants = loadPlants();
-    plants.push(newPlant);
-    savePlants(plants);
-    return plants;
+    const updatedPlants = plants.filter(plant => plant.id !== id);
+    savePlants(updatedPlants);
 }

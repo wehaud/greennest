@@ -1,4 +1,4 @@
-export function createPlantCard(plant) {
+export function createPlantCard(plant, onDelete) {
     const card = document.createElement("div");
     card.className = "plant-card";
 
@@ -8,12 +8,12 @@ export function createPlantCard(plant) {
     const birthDate = document.createElement("p");
     birthDate.textContent = `Посажено: ${plant.birthDate}`;
 
-    const menu = document.createElement("button");
-    menu.textContent = "";
-    menu.onClick = () => {
-        //render menu
-    };
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Выкинуть";
+    delBtn.addEventListener('click', () => {
+        onDelete(plant.id);
+    });
 
-    card.append(title, birthDate, menu);
+    card.append(title, birthDate, delBtn);
     return card;
 }

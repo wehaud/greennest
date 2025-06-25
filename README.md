@@ -42,7 +42,7 @@ This project is built to demonstrate:
 - PWA (Progressive Web App) support
 
 ## 👩‍💻 Author
-Created by wehaud
+Created by wehaud.
 Made with plants, tea, and endless care.
 
 Every plant has a story.

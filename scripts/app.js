@@ -1,7 +1,5 @@
-import { savePlants, loadPlants, addPlant } from "./storage.js";
-import { createPlantCard } from "./plantCard.js";
-
-const plants = loadPlants();
+import { loadPlants, addPlant, deletePlant } from "./storage.js";
+import { createPlantCard } from "../components/plantCard.js";
 
 const plantForm = document.getElementById("plant-form");
 const plantList = document.getElementById("plant-list");
@@ -9,26 +7,30 @@ const plantList = document.getElementById("plant-list");
 const nameInput = document.getElementById("plant-name");
 const birthDateInput = document.getElementById("plant-birth");
 
-renderPlantList(plants);
+function renderPlants() {
+    const plants = loadPlants();
 
-function renderPlantList(plants) {
     plantList.innerHTML = "";
     plants.forEach(plant => {
-        const card = createPlantCard(plant);
+        const card = createPlantCard(plant, (id) => {
+            deletePlant(id);
+            renderPlants();
+        });
 
         plantList.appendChild(card);
     });
 }
 
+renderPlants();
+
 plantForm.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const newPlant = {
+    addPlant({
         name: nameInput.value,
         birthDate: birthDateInput.value,
-    };
-
-    const updatedPlants = addPlant(newPlant);
-    renderPlantList(updatedPlants);
+    });
+    
+    renderPlants();
     plantForm.reset();
 });
