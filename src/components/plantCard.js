@@ -1,3 +1,5 @@
+import { getPlantAge } from "../utils/getPlantAge.js";
+
 export function createPlantCard(plant, onDelete) {
     const card = document.createElement("div");
     card.className = "plant-card";
@@ -14,6 +16,10 @@ export function createPlantCard(plant, onDelete) {
         onDelete(plant.id);
     });
 
-    card.append(title, birthDate, delBtn);
+    const age = document.createElement("p");
+    age.textContent = getPlantAge(plant.birthDate);
+
+    card.append(title, birthDate, age, delBtn);
+
     return card;
 }

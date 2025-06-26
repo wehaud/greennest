@@ -1,4 +1,4 @@
-import { generateId } from '../utils.js';
+import { generateId } from '../utils/utils.js';
 
 const STORAGE_KEY = "plants";
 
@@ -11,7 +11,6 @@ export function addPlant({name, birthDate}) {
     }
     plants.push(newPlant);
     savePlants(plants);
-    return plants;
 }
 
 export function savePlants(plants) {
