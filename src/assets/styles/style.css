@@ -17,3 +17,11 @@ input, button {
     margin: 5px 0;
     padding: 8px;
 }
+
+.plant-form {
+    position: absolute;
+    top: 30%;
+    padding: 5%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

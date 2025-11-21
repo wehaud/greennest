@@ -1,22 +1,85 @@
-import './assets/styles/style.css'
-import { renderGarden } from './services/renderGarden'
-import { addPlant } from './storage/storage';
+import '@assets/styles/style.css';
+import { render } from '@services/render';
+import {
+  addPlant,
+  deletePlant,
+  loadPlants,
+  updatePlant,
+} from '@storage/storage';
+import { toggleFormVisibility } from '@storage/uiState';
 
-const plantForm = document.getElementById("plant-form");
+let plantToUpdate = null;
 
-const nameInput = document.getElementById("plant-name");
-const birthDateInput = document.getElementById("plant-birth");
-
-renderGarden();
-
-plantForm.addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    addPlant({
-        name: nameInput.value,
-        birthDate: birthDateInput.value,
-    });
-    
-    renderGarden();
-    plantForm.reset();
+render(loadPlants(), plantToUpdate, {
+  onEdit: handleEdit,
+  onUpdate: handleUpdate,
+  onSubmit: handleSubmit,
+  onDelete: handleDelete,
 });
+
+function handleAdd(plant) {
+  addPlant(plant);
+  toggleFormVisibility(false);
+  render(loadPlants(), plantToUpdate, {
+    onEdit: handleEdit,
+    onUpdate: handleUpdate,
+    onSubmit: handleSubmit,
+    onDelete: handleDelete,
+  });
+}
+
+function handleEdit(plant) {
+  plantToUpdate = plant;
+  toggleFormVisibility(true);
+
+  render(loadPlants(), plantToUpdate, {
+    onEdit: handleEdit,
+    onUpdate: handleUpdate,
+    onSubmit: handleSubmit,
+    onDelete: handleDelete,
+  });
+}
+
+function handleUpdate(updatedPlant) {
+  const existingPlant = loadPlants().find(
+    (plant) => plant.id === updatedPlant.id
+  );
+
+  if (!existingPlant) {
+    throw new Error(`Такого растения нет`);
+  }
+
+  const updated = {
+    ...existingPlant,
+    ...updatedPlant,
+  };
+
+  updatePlant(updated);
+  plantToUpdate = null;
+  toggleFormVisibility(false);
+
+  render(loadPlants(), plantToUpdate, {
+    onEdit: handleEdit,
+    onUpdate: handleUpdate,
+    onSubmit: handleSubmit,
+    onDelete: handleDelete,
+  });
+}
+
+function handleSubmit(plant) {
+  if (plant?.id) {
+    handleUpdate(plant);
+  } else {
+    handleAdd(plant);
+  }
+}
+
+function handleDelete(id) {
+  deletePlant(id);
+  render(loadPlants(), plantToUpdate, {
+    onEdit: handleEdit,
+    onUpdate: handleUpdate,
+    onSubmit: handleSubmit,
+    onDelete: handleDelete,
+  });
+}

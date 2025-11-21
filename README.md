@@ -47,3 +47,8 @@ Made with plants, tea, and endless care.
 
 Every plant has a story.
 **GreenNest** helps you keep it.
+
+## How to run project
+
+1. npm install
+2. npm run dev

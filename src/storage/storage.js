@@ -1,4 +1,4 @@
-import { generateId } from '../utils/utils.js';
+import { generateId } from '@utils/utils.js';
 
 const STORAGE_KEY = "plants";
 
@@ -11,6 +11,7 @@ export function addPlant({name, birthDate}) {
     }
     plants.push(newPlant);
     savePlants(plants);
+    return newPlant;
 }
 
 export function savePlants(plants) {
@@ -22,8 +23,18 @@ export function loadPlants() {
     return data ? JSON.parse(data) : [];
 }
 
-export function editPlant() {
-    //todo edit
+export function updatePlant(updatedPlant) {
+    let plants = loadPlants();
+
+    const plantIndex = plants.findIndex(plant => plant.id === updatedPlant.id);
+
+    if (plantIndex === -1) {
+        throw new Error(`Такого растения нет`);
+    }
+
+    plants[plantIndex] = updatedPlant;
+
+    savePlants(plants);
 }
 
 export function deletePlant(id) {
